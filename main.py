@@ -1,2 +1,5 @@
+from gui.gui import Gui
+
 if __name__ == '__main__':
-    print('hello world')
+    print('Start automatu z napojami')
+    Gui()
