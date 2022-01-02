@@ -1,4 +1,4 @@
-from tkinter import Tk, Label, StringVar, Button, messagebox
+from tkinter import Tk, Label, StringVar, Button, messagebox, DISABLED, NORMAL
 from tkinter.font import Font
 from typing import Optional
 
@@ -8,8 +8,10 @@ DEFAULT_SCREEN_TEXT = 'Wybierz produkt (30 - 50)'
 
 
 def set_proper_text(number: int) -> str:
+    """Metoda odpowiedzialna za przypisanie poprawnych nazw dla przycisków wyboru"""
+
     if number == 9:
-        return 'CLS'
+        return 'EXIT'
     elif number == 10:
         return '0'
     elif number == 11:
@@ -19,10 +21,20 @@ def set_proper_text(number: int) -> str:
 
 
 def set_proper_coin(coin: float) -> str:
+    """Metoda odpowiedzialna za przpisanie poprawnych nazw do monet"""
+
     if coin >= 1:
         return str(coin) + ' zł'
     else:
         return str(int(coin * 100)) + ' gr'
+
+
+def change_buttons_state(buttons: list[Button], button_state: bool) -> None:
+    """Metoda odpowiedzialna za włączanie i wyłączanie przyciskow"""
+
+    for button in buttons:
+        if button['text'] != "EXIT" and button['text'] != 'OK':
+            button.config(state=NORMAL if button_state else DISABLED)
 
 
 class Gui:
@@ -66,10 +78,11 @@ class Gui:
 
         # Monety
         self.add_coins()
+        change_buttons_state(self.__screen_coins, False)
 
         # Siatka ekranu
-        self.__main.grid_columnconfigure(tuple(i for i in range(12)), weight=1)
-        self.__main.grid_rowconfigure(tuple(i for i in range(9)), weight=1)
+        self.__main.grid_columnconfigure(tuple(i for i in range(12)), weight=1)  # tuple Comprehension
+        self.__main.grid_rowconfigure(tuple(i for i in range(9)), weight=1)  # tuple Comprehension
 
     def add_screen(self) -> None:
         """Metoda odpowiedzialna za dodanie ekranu"""
@@ -101,13 +114,16 @@ class Gui:
                 bd=0,
                 command=lambda number=i + 1: self.choose_product(number),
                 cursor="hand2"
-            ).grid(
-                row=i // 3 + 5,
-                column=i % 3 * 3,
+            ) for i in range(12)  # List Comprehension
+        ]
+
+        for idx, button in enumerate(self.__screen_buttons):
+            button.grid(
+                row=idx // 3 + 5,
+                column=idx % 3 * 3,
                 columnspan=3,
                 sticky="nswe"
-            ) for i in range(12)
-        ]
+            )
 
     def add_coins(self) -> None:
         """Metoda odpowiedzialna za dodanie monet"""
@@ -123,13 +139,16 @@ class Gui:
                 activebackground="#2c3e50",
                 bd=0,
                 cursor="hand2"
-            ).grid(
+            ) for coin in utils.coins  # List Comprehension
+        ]
+
+        for idx, coin in enumerate(self.__screen_coins):
+            coin.grid(
                 row=idx,
                 column=9,
                 columnspan=3,
                 sticky="nswe"
-            ) for idx, coin in enumerate(utils.coins)
-        ]
+            )
 
     def choose_product(self, action_number: int) -> None:
         if action_number == 10:
@@ -142,7 +161,8 @@ class Gui:
             number = int(self.__screen_current_number)
 
             if 30 <= number <= 50:
-                messagebox.showinfo('Success', 'Podałeś poprawny number')
+                change_buttons_state(self.__screen_buttons, False)
+                change_buttons_state(self.__screen_coins, True)
             else:
                 messagebox.showerror('Error', 'Nie ma takiego produktu')
                 self.clear_screen()
@@ -163,6 +183,8 @@ class Gui:
 
         self.__screen_current_number = ''
         self.__screen_text.set(DEFAULT_SCREEN_TEXT)
+        change_buttons_state(self.__screen_buttons, True)
+        change_buttons_state(self.__screen_coins, False)
 
 
 if __name__ == '__main__':
