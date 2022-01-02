@@ -56,9 +56,7 @@ class Gui:
         self.__main.mainloop()
 
     def design(self) -> None:
-        """
-        Metoda odpowiedzialna za wyświetlenie ekranu, przycisków oraz monet za pomocą tkinter'a
-        """
+        """Metoda odpowiedzialna za wyświetlenie ekranu, przycisków oraz monet za pomocą tkinter'"""
 
         # Ekran
         self.add_screen()
@@ -74,9 +72,8 @@ class Gui:
         self.__main.grid_rowconfigure(tuple(i for i in range(9)), weight=1)
 
     def add_screen(self) -> None:
-        """
-        Metoda odpowiedzialna za dodanie ekranu
-        """
+        """Metoda odpowiedzialna za dodanie ekranu"""
+
         self.__screen = Label(
             self.__main,
             font=self.__default_font,
@@ -90,9 +87,8 @@ class Gui:
         self.__screen.grid(column=0, row=0, columnspan=9, rowspan=5, sticky="nswe")
 
     def add_buttons(self) -> None:
-        """
-        Metoda odpowiedzialna za dodanie przycisków
-        """
+        """Metoda odpowiedzialna za dodanie przycisków"""
+
         self.__screen_buttons = [
             Button(
                 self.__main,
@@ -114,9 +110,8 @@ class Gui:
         ]
 
     def add_coins(self) -> None:
-        """
-        Metoda odpowiedzialna za dodanie monet
-        """
+        """Metoda odpowiedzialna za dodanie monet"""
+
         self.__screen_coins = [
             Button(
                 self.__main,
@@ -164,9 +159,8 @@ class Gui:
         self.__screen_text.set(self.__screen_current_number)
 
     def clear_screen(self) -> None:
-        """
-        Metoda odpowiedzialna za czyszczenie ekranu
-        """
+        """Metoda odpowiedzialna za czyszczenie ekranu"""
+
         self.__screen_current_number = ''
         self.__screen_text.set(DEFAULT_SCREEN_TEXT)
 
