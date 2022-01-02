@@ -24,7 +24,13 @@ def set_proper_coin(coin: float) -> str:
     else:
         return str(int(coin * 100)) + ' gr'
 
-
+"""
+    Klasa Gui
+    
+    Odpowiada za rysowanie oraz interakcje użytkownika z automatem do napojów
+    
+    Za jej pomocą możemy wybrać produkt oraz wrzucić odpowiednie monety, tak aby otrzymać odpowiedniu produkt
+"""
 class Gui:
     def __init__(self) -> None:
         # Ekran
