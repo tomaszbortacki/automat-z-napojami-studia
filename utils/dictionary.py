@@ -5,5 +5,6 @@ statics = {
     'button_accept_text': 'OK',
     'button_color': '#34495e',
     'button_color_disabled': '#2c3e50',
-    'price_text': 'Do zapłaty: '
+    'price_text': 'Do zapłaty: ',
+    'inserted': 'Wrzucono: '
 }

@@ -1,4 +1,4 @@
-from tkinter import Tk, Label, StringVar, Button, messagebox
+from tkinter import Tk, Label, StringVar, Button, messagebox, NORMAL
 from tkinter.font import Font
 from typing import Optional
 from core import Core
@@ -20,6 +20,7 @@ class Gui:
         self.__main = Tk()
         self.__main.title('Automat z napojami - Tomasz Bortacki - JS')
         self.__main.minsize(480, 640)
+        self.__main.resizable(width=False, height=False)
 
         # Wyświetlacz
         self.__default_font = Font(family="sans-serif", size=14, weight="bold")
@@ -155,7 +156,10 @@ class Gui:
             self.clear_screen()
             return
         elif action_number == 12:
-            self.find_product()
+            if all(button['state'] == NORMAL for button in self.__screen_buttons):
+                self.find_product()
+            else:
+                print('To be continued...')
             return
         elif action_number == 11:
             action_number = 0
@@ -190,6 +194,7 @@ class Gui:
 
         try:
             self.set_price(self.__core.get_product_price(int(self.__screen_current_number)))
+            self.__screen_text.set(statics['inserted'] + set_proper_coin(0.0))
             change_buttons_state(self.__screen_buttons, False)
             change_buttons_state(self.__screen_coins, True)
         except WrongProductError as e:
@@ -201,6 +206,7 @@ class Gui:
 
         try:
             self.__core.pay(coin)
+            self.__screen_text.set(statics['inserted'] + set_proper_coin(self.__core.get_money()))
         except WrongMoneyError as e:
             show_error(e)
 

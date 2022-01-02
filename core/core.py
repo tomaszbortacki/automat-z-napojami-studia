@@ -1,6 +1,7 @@
 from assortment import Assortment
 from bank import Bank
 from exceptions import WrongProductError, WrongMoneyError
+from money import Money
 from utils import price_generator, coins
 
 
@@ -10,6 +11,7 @@ class Core:
         self.__product_number = 0
         self.__product_price = 0
         self.__bank = Bank.change(50)
+        self.__bank_temp = Bank.change()
 
     @classmethod
     def init(cls, rng: range, qty=5):
@@ -39,11 +41,16 @@ class Core:
         if not isinstance(coin, (int, float)) or coin not in coins:
             raise WrongMoneyError('Nie ma takiej waluty')
 
-        print(coin)
+        self.__bank_temp.load(Money(coin, 1))
 
     def clear(self):
         self.__product_number = 0
         self.__product_price = 0
+
+    def get_money(self) -> float:
+        """Metoda zwraca wartość wrzuconych monet"""
+
+        return self.__bank_temp.get_amount()
 
 
 if __name__ == '__main__':

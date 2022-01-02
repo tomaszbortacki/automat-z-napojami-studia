@@ -18,6 +18,14 @@ class Items:
         self.__qty = qty
         self.__pre = pre
 
+    def set_qty(self, add_qty) -> None:
+        """Metoda dodaje odpowiednia ilość monet"""
+
+        if add_qty < 0:
+            raise ValueError('QTY cannot be negative')
+
+        self.__qty += add_qty
+
     def get(self, qty: int):
         """Metoda abstrakcyjna. Zwraca ilość rzeczy"""
 

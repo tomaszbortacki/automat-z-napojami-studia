@@ -19,14 +19,6 @@ class Money(Items):
         self.__qty -= qty
         return Money(self.get_float_val(), qty)
 
-    def set(self, qty):
-        """Metoda dodaje odpowiednia ilość monet"""
-
-        if qty < 0:
-            raise ValueError('QTY cannot be negative')
-
-        self.__qty = qty
-
 
 if __name__ == '__main__':
     print('Plik musi zostać zaimportowany')
