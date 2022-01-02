@@ -31,3 +31,16 @@ class WrongProductError(Exception):
 
     def __init__(self, *args: object) -> None:
         super().__init__(*args)
+
+
+class WrongMoneyError(Exception):
+    """Wyjatek - Nie ma takiej waluty"""
+
+    def __init__(self, *args: object) -> None:
+        super().__init__(*args)
+
+
+if __name__ == '__main__':
+    print('Plik musi zostać zaimportowany')
+else:
+    pass

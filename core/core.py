@@ -1,6 +1,7 @@
 from assortment import Assortment
-from exceptions import WrongProductError
-from utils import price_generator
+from bank import Bank
+from exceptions import WrongProductError, WrongMoneyError
+from utils import price_generator, coins
 
 
 class Core:
@@ -8,6 +9,7 @@ class Core:
         self.__assortment = Assortment(products, 30)
         self.__product_number = 0
         self.__product_price = 0
+        self.__bank = Bank.change(50)
 
     @classmethod
     def init(cls, rng: range, qty=5):
@@ -31,9 +33,20 @@ class Core:
 
         return "{:.2f}".format(self.__product_price)
 
-    def pay(self, coin: float):
+    def pay(self, coin: float) -> None:
+        """Metoda odpowiedzialna za placenie"""
 
+        if not isinstance(coin, (int, float)) or coin not in coins:
+            raise WrongMoneyError('Nie ma takiej waluty')
+
+        print(coin)
 
     def clear(self):
         self.__product_number = 0
         self.__product_price = 0
+
+
+if __name__ == '__main__':
+    print('Plik musi zostać zaimportowany')
+else:
+    pass

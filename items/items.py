@@ -57,3 +57,8 @@ class Items:
         """Metoda zwraca wartość wszystkich rzeczy w postaci stringa z precyzją"""
 
         return ("{:." + str(self.__pre) + "f}").format(self.get_sum_float_val())
+
+if __name__ == '__main__':
+    print('Plik musi zostać zaimportowany')
+else:
+    pass

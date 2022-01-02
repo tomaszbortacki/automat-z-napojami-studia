@@ -2,7 +2,7 @@ from tkinter import Tk, Label, StringVar, Button, messagebox
 from tkinter.font import Font
 from typing import Optional
 from core import Core
-from exceptions import WrongProductError
+from exceptions import WrongProductError, WrongMoneyError
 from utils import utils, statics, set_proper_text, set_proper_coin, change_buttons_state, show_error
 
 
@@ -132,7 +132,7 @@ class Gui:
                 activeforeground='#fff',
                 activebackground="#2c3e50",
                 bd=0,
-                command=lambda number=coin: self.pay(number),
+                command=lambda number=coin: self.pay(float(number)),
                 cursor="hand2"
             ) for coin in utils.coins  # List Comprehension
         ]
@@ -146,6 +146,11 @@ class Gui:
             )
 
     def choose_product(self, action_number: int) -> None:
+        """
+            Metoda jest przypisana do przycisków i steruje informacjami na ekranie,
+            typu wybieranie produktu, czy kasowanie
+        """
+
         if action_number == 10:
             self.clear_screen()
             return
@@ -162,9 +167,6 @@ class Gui:
 
         self.__screen_text.set(self.__screen_current_number)
 
-    def pay(self, coin: float):
-        print(coin)
-
     def clear_screen(self) -> None:
         """Metoda odpowiedzialna za czyszczenie ekranu"""
 
@@ -175,6 +177,11 @@ class Gui:
         change_buttons_state(self.__screen_buttons, True)
         change_buttons_state(self.__screen_coins, False)
 
+    def set_price(self, price: str) -> None:
+        self.__screen_price_text.set(
+            statics['price_text'] + price
+        )
+
     def find_product(self) -> None:
         """Metoda odpowiedzialna za znalezienie produktu i w razie problemów wyrzuca błąd"""
 
@@ -182,14 +189,20 @@ class Gui:
             return
 
         try:
-            self.__screen_price_text.set(
-                statics['price_text'] + self.__core.get_product_price(int(self.__screen_current_number))
-            )
+            self.set_price(self.__core.get_product_price(int(self.__screen_current_number)))
             change_buttons_state(self.__screen_buttons, False)
             change_buttons_state(self.__screen_coins, True)
         except WrongProductError as e:
             show_error(e)
             self.clear_screen()
+
+    def pay(self, coin: float) -> None:
+        """Metoda odpowiedzialna za sterowanie mechanizmem zaplaty, oraz obsługę błędów"""
+
+        try:
+            self.__core.pay(coin)
+        except WrongMoneyError as e:
+            show_error(e)
 
 
 if __name__ == '__main__':

@@ -31,3 +31,9 @@ class Assortment(Wrapper):
 
     def set(self, one_type: str, qty: int):
         raise NotImplementedError("Nie można dodać produktu")
+
+
+if __name__ == '__main__':
+    print('Plik musi zostać zaimportowany')
+else:
+    pass

@@ -40,3 +40,9 @@ class Wrapper:
         """Metoda abstrakcyjna zakłada dodanie danej ilości przedmiotów do danego typu danych"""
 
         raise NotImplementedError('Method (set) is not implemented')
+
+
+if __name__ == '__main__':
+    print('Plik musi zostać zaimportowany')
+else:
+    pass

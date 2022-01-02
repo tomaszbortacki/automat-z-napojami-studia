@@ -49,3 +49,9 @@ def price_generator(rng: range, qty=5):
     for idx in rng:
         rand = random.randrange(100, 1000, qty) / 100
         yield Product('Produkt ' + str(idx), rand, qty)
+
+
+if __name__ == '__main__':
+    print('Plik musi zostać zaimportowany')
+else:
+    pass
