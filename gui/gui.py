@@ -21,12 +21,8 @@ def set_proper_text(number: int) -> str:
 def set_proper_coin(coin: float) -> str:
     if coin >= 1:
         return str(coin) + ' zł'
-    elif coin == 0.02:
-        return str(int(coin * 100)) + ' grosze'
-    elif coin == 0.01:
-        return str(int(coin * 100)) + ' grosz'
     else:
-        return str(int(coin * 100)) + ' groszy'
+        return str(int(coin * 100)) + ' gr'
 
 
 class Gui:
@@ -37,7 +33,7 @@ class Gui:
         self.__main.minsize(480, 640)
 
         # Wyświetlacz
-        self.__default_font = Font(family="sans-serif", size=16, weight="bold")
+        self.__default_font = Font(family="sans-serif", size=14, weight="bold")
         self.__screen: Optional[Label] = None
         self.__screen_text = StringVar()
         self.__screen_text.set(DEFAULT_SCREEN_TEXT)
@@ -121,7 +117,7 @@ class Gui:
 
     def choose_product(self, action_number: int) -> None:
         if action_number == 10:
-            self.__screen_text.set(DEFAULT_SCREEN_TEXT)
+            self.clear_screen()
             return
         elif action_number == 12:
             if not self.__screen_current_number:
@@ -133,8 +129,7 @@ class Gui:
                 messagebox.showinfo('Success', 'Podałeś poprawny number')
             else:
                 messagebox.showerror('Error', 'Nie ma takiego produktu')
-                self.__screen_current_number = ''
-                self.__screen_text.set(DEFAULT_SCREEN_TEXT)
+                self.clear_screen()
 
             return
         elif action_number == 11:
@@ -146,6 +141,10 @@ class Gui:
             self.__screen_current_number += str(action_number)
 
         self.__screen_text.set(self.__screen_current_number)
+
+    def clear_screen(self) -> None:
+        self.__screen_current_number = ''
+        self.__screen_text.set(DEFAULT_SCREEN_TEXT)
 
 
 if __name__ == '__main__':
