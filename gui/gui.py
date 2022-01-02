@@ -1,21 +1,18 @@
 from tkinter import Tk, Label, StringVar, Button, messagebox, DISABLED, NORMAL
 from tkinter.font import Font
 from typing import Optional
-
-from . import utils
-
-DEFAULT_SCREEN_TEXT = 'Wybierz produkt (30 - 50)'
+from helpers import utils, statics
 
 
 def set_proper_text(number: int) -> str:
     """Metoda odpowiedzialna za przypisanie poprawnych nazw dla przycisków wyboru"""
 
     if number == 9:
-        return 'EXIT'
+        return statics['button_clear_text']
     elif number == 10:
         return '0'
     elif number == 11:
-        return 'OK'
+        return statics['button_accept_text']
     else:
         return str(number + 1)
 
@@ -33,8 +30,11 @@ def change_buttons_state(buttons: list[Button], button_state: bool) -> None:
     """Metoda odpowiedzialna za włączanie i wyłączanie przyciskow"""
 
     for button in buttons:
-        if button['text'] != "EXIT" and button['text'] != 'OK':
-            button.config(state=NORMAL if button_state else DISABLED)
+        if button['text'] != statics['button_clear_text'] and button['text'] != statics['button_accept_text']:
+            button.config(
+                state=NORMAL if button_state else DISABLED,
+                bg=statics['button_color'] if button_state else statics['button_color_disabled']
+            )
 
 
 class Gui:
@@ -56,10 +56,13 @@ class Gui:
         self.__default_font = Font(family="sans-serif", size=14, weight="bold")
         self.__screen: Optional[Label] = None
         self.__screen_text = StringVar()
-        self.__screen_text.set(DEFAULT_SCREEN_TEXT)
+        self.__screen_text.set(statics['default_text_screen'])
         self.__screen_buttons: Optional[list[Button]] = None
         self.__screen_coins: Optional[list[Button]] = None
         self.__screen_current_number = ''
+        self.__screen_price: Optional[Label] = None
+        self.__screen_price_text = StringVar()
+        self.__screen_temp_label: Optional[Label] = None  # Rozpychacz - eliminuje skakanie ekranu
 
         # Dodanie designu i ekranu
         self.design()
@@ -87,6 +90,15 @@ class Gui:
     def add_screen(self) -> None:
         """Metoda odpowiedzialna za dodanie ekranu"""
 
+        # Rozpycha ekran przez co po zmianie teksty docelowego, przyciski nie zmieniają szerokości
+        self.__screen_temp_label = Label(
+            self.__main,
+            font=self.__default_font,
+            fg="#2c3e50",
+            bg="#2c3e50",
+            text='AAAAAAAAAAAAAAAAAAAA'
+        )
+
         self.__screen = Label(
             self.__main,
             font=self.__default_font,
@@ -97,7 +109,19 @@ class Gui:
             padx=16
         )
 
-        self.__screen.grid(column=0, row=0, columnspan=9, rowspan=5, sticky="nswe")
+        self.__screen_price = Label(
+            self.__main,
+            font=self.__default_font,
+            fg="#fff",
+            bg="#2c3e50",
+            textvariable=self.__screen_price_text,
+            pady=6,
+            padx=16
+        )
+
+        self.__screen_temp_label.grid(column=0, row=0, columnspan=9, sticky="nswe")
+        self.__screen.grid(column=0, row=0, columnspan=9, rowspan=4, sticky="nswe")
+        self.__screen_price.grid(column=0, row=4, columnspan=9, sticky="nswe")
 
     def add_buttons(self) -> None:
         """Metoda odpowiedzialna za dodanie przycisków"""
@@ -108,7 +132,7 @@ class Gui:
                 text=set_proper_text(i),
                 font=self.__default_font,
                 fg="#fff",
-                bg="#34495e",
+                bg=statics['button_color'],
                 activeforeground='#fff',
                 activebackground="#2c3e50",
                 bd=0,
@@ -134,7 +158,7 @@ class Gui:
                 text=set_proper_coin(coin),
                 font=self.__default_font,
                 fg="#fff",
-                bg="#34495e",
+                bg=statics['button_color'],
                 activeforeground='#fff',
                 activebackground="#2c3e50",
                 bd=0,
@@ -182,7 +206,7 @@ class Gui:
         """Metoda odpowiedzialna za czyszczenie ekranu"""
 
         self.__screen_current_number = ''
-        self.__screen_text.set(DEFAULT_SCREEN_TEXT)
+        self.__screen_text.set(statics['default_text_screen'])
         change_buttons_state(self.__screen_buttons, True)
         change_buttons_state(self.__screen_coins, False)
 
