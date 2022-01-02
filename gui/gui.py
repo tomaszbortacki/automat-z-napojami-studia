@@ -1,7 +1,9 @@
 from tkinter import Tk, Label, StringVar, Button, messagebox
 from tkinter.font import Font
 from typing import Optional
-from helpers import utils, statics, set_proper_text, set_proper_coin, change_buttons_state
+from core import Core
+from exceptions import WrongProductError
+from utils import utils, statics, set_proper_text, set_proper_coin, change_buttons_state, show_error
 
 
 class Gui:
@@ -30,6 +32,7 @@ class Gui:
         self.__screen_price: Optional[Label] = None
         self.__screen_price_text = StringVar()
         self.__screen_temp_label: Optional[Label] = None  # Rozpychacz - eliminuje skakanie ekranu
+        self.__core = Core.init(range(30, 51))
 
         # Dodanie designu i ekranu
         self.design()
@@ -38,7 +41,7 @@ class Gui:
         self.__main.mainloop()
 
     def design(self) -> None:
-        """Metoda odpowiedzialna za wyświetlenie ekranu, przycisków oraz monet za pomocą tkinter'"""
+        """Metoda odpowiedzialna za wyświetlenie ekranu, przycisków oraz monet za pomocą tkinter'a"""
 
         # Ekran
         self.add_screen()
@@ -129,6 +132,7 @@ class Gui:
                 activeforeground='#fff',
                 activebackground="#2c3e50",
                 bd=0,
+                command=lambda number=coin: self.pay(number),
                 cursor="hand2"
             ) for coin in utils.coins  # List Comprehension
         ]
@@ -146,18 +150,7 @@ class Gui:
             self.clear_screen()
             return
         elif action_number == 12:
-            if not self.__screen_current_number:
-                return
-
-            number = int(self.__screen_current_number)
-
-            if 30 <= number <= 50:
-                change_buttons_state(self.__screen_buttons, False)
-                change_buttons_state(self.__screen_coins, True)
-            else:
-                messagebox.showerror('Error', 'Nie ma takiego produktu')
-                self.clear_screen()
-
+            self.find_product()
             return
         elif action_number == 11:
             action_number = 0
@@ -169,13 +162,34 @@ class Gui:
 
         self.__screen_text.set(self.__screen_current_number)
 
+    def pay(self, coin: float):
+        print(coin)
+
     def clear_screen(self) -> None:
         """Metoda odpowiedzialna za czyszczenie ekranu"""
 
         self.__screen_current_number = ''
         self.__screen_text.set(statics['default_text_screen'])
+        self.__screen_price_text.set('')
+        self.__core.clear()
         change_buttons_state(self.__screen_buttons, True)
         change_buttons_state(self.__screen_coins, False)
+
+    def find_product(self) -> None:
+        """Metoda odpowiedzialna za znalezienie produktu i w razie problemów wyrzuca błąd"""
+
+        if not self.__screen_current_number:
+            return
+
+        try:
+            self.__screen_price_text.set(
+                statics['price_text'] + self.__core.get_product_price(int(self.__screen_current_number))
+            )
+            change_buttons_state(self.__screen_buttons, False)
+            change_buttons_state(self.__screen_coins, True)
+        except WrongProductError as e:
+            show_error(e)
+            self.clear_screen()
 
 
 if __name__ == '__main__':

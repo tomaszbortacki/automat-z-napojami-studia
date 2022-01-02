@@ -1,5 +1,7 @@
-from tkinter import NORMAL, DISABLED, Button
-from helpers import statics
+import random
+from tkinter import NORMAL, DISABLED, Button, messagebox
+from utils import statics
+from product import Product
 
 coins: list[float] = [5, 2, 1, 0.5, 0.2, 0.1, 0.05, 0.02, 0.01]  # Nominały
 
@@ -35,3 +37,15 @@ def change_buttons_state(buttons: list[Button], button_state: bool) -> None:
                 state=NORMAL if button_state else DISABLED,
                 bg=statics['button_color'] if button_state else statics['button_color_disabled']
             )
+
+
+def show_error(error) -> None:
+    messagebox.showerror('Error', error)
+
+
+def price_generator(rng: range, qty=5):
+    """Metoda generuje losowe ceny dla produtów z danego przedzialu oraz ustawia ich ilość (Domyślnie 5)"""
+
+    for idx in rng:
+        rand = random.randrange(100, 1000, qty) / 100
+        yield Product('Produkt ' + str(idx), rand, qty)

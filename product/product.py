@@ -1,5 +1,5 @@
-from core import Items
-from helpers import WrongProductError
+from exceptions import WrongProductError
+from items import Items
 
 
 class Product(Items):

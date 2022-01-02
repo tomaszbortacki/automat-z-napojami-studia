@@ -1,4 +1,4 @@
-from core import Items
+from items import Items
 
 
 class Wrapper:
@@ -31,8 +31,12 @@ class Wrapper:
 
         return self.__info[one_type].take(qty)
 
+    def get_price(self, number: int) -> float:
+        """Metoda zwraca cenę przedmiotu o podanym id"""
+
+        return self.__info[number].get_float_val()
+
     def set(self, one_type: str, qty: int):
         """Metoda abstrakcyjna zakłada dodanie danej ilości przedmiotów do danego typu danych"""
 
         raise NotImplementedError('Method (set) is not implemented')
-
