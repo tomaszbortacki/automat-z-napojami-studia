@@ -1,4 +1,4 @@
-from tkinter import Tk, Label, StringVar, Button, messagebox, DISABLED, NORMAL
+from tkinter import Tk, Label, StringVar, Button, messagebox
 from tkinter.font import Font
 from typing import Optional
 from helpers import utils, statics, set_proper_text, set_proper_coin, change_buttons_state
