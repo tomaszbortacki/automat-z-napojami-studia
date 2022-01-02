@@ -19,11 +19,11 @@ def set_proper_text(number: int) -> str:
         return str(number + 1)
 
 
-def set_proper_coin(coin: float) -> str:
+def set_proper_coin(coin: (int, float)) -> str:
     """Metoda odpowiedzialna za przpisanie poprawnych nazw do monet"""
 
     if coin >= 1:
-        return str(coin) + ' zł'
+        return (str(int(coin)) if isinstance(coin, int) or coin.is_integer() else "{:.2f}".format(coin)) + ' zł'
     else:
         return str(int(coin * 100)) + ' gr'
 
