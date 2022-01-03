@@ -1,5 +1,5 @@
 from money import Money
-from utils import coins
+from utils import coins, set_proper_coin
 from wrapper import Wrapper
 
 
@@ -63,6 +63,16 @@ class Bank(Wrapper):
             amount += coin.get_sum_float_val()
 
         return amount
+
+    def get_rest(self) -> str:
+        """Metoda zwraca wrzucone monety"""
+
+        # string from list comprehension
+        return ''.join(
+            'Zwrócono monetę o nominale: ' + set_proper_coin(coin.get_float_val()) + ' w ilości: ' + str(coin.get_qty()) + ' \n'
+            if coin.get_qty() > 0 else ''
+            for coin in self.get_info().values()
+        )
 
 
 if __name__ == '__main__':

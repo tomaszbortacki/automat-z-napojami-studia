@@ -2,7 +2,7 @@ from assortment import Assortment
 from bank import Bank
 from exceptions import WrongProductError, WrongMoneyError
 from money import Money
-from utils import price_generator, coins
+from utils import price_generator, coins, show_info
 
 
 class Core:
@@ -44,9 +44,21 @@ class Core:
         if not isinstance(coin, (int, float)) or coin not in coins:
             raise WrongMoneyError('Nie ma takiej waluty')
 
+        if not self.__product_price or not self.__product_number:
+            raise WrongProductError('Nie wybrano produktu')
+
         self.__bank_temp.load(Money(coin, 1))
 
-    def clear(self):
+        if self.__bank_temp.get_amount() >= self.__product_price:
+            print('zapłacono wystarczająco')
+
+    def clear(self) -> None:
+        """Metoda czyści transakcje oraz zwraca wrzucone monety, jeżeli została ona wcześniej przerwana"""
+
+        rest = self.__bank_temp.get_rest()
+        if rest:
+            show_info(rest)
+
         self.__product_number = 0
         self.__product_price = 0
         self.__bank_temp = Bank.change()

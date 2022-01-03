@@ -40,7 +40,15 @@ def change_buttons_state(buttons: list[Button], button_state: bool) -> None:
             )
 
 
+def show_info(info) -> None:
+    """Metoda wyświetla informacje"""
+
+    messagebox.showinfo('Info', info)
+
+
 def show_error(error) -> None:
+    """Metoda wyświetla błędy"""
+
     messagebox.showerror('Error', error)
 
 

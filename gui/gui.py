@@ -177,12 +177,13 @@ class Gui:
         self.__screen_text.set(statics['default_text_screen'])
         self.__screen_price_text.set('')
         self.__core.clear()
+
         change_buttons_state(self.__screen_buttons, True)
         change_buttons_state(self.__screen_coins, False)
 
     def set_price(self, price: str) -> None:
         self.__screen_price_text.set(
-            statics['price_text'] + price
+            statics['price_text'] + set_proper_coin(float(price))
         )
 
     def find_product(self) -> None:
@@ -207,6 +208,8 @@ class Gui:
             self.__core.pay(coin)
             self.__screen_text.set(statics['inserted'] + set_proper_coin(self.__core.get_money()))
         except WrongMoneyError as e:
+            show_error(e)
+        except WrongProductError as e:
             show_error(e)
 
 

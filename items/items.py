@@ -36,35 +36,16 @@ class Items:
 
         return self.__qty
 
-    def get_int_val(self) -> int:
-        """Metoda zwraca wartość danej rzeczy w postaci int."""
-
-        return self.__val
-
     def get_float_val(self) -> float:
         """Metoda zwraca wartość danej rzeczy w postaci zmiennoprzecinkowej"""
 
         return self.__val / 10 ** self.__pre
-
-    def get_sum_int_val(self) -> int:
-        """Zwraca całkowitą dokładną wartość przedmiotów w jednostce przechowywania."""
-
-        return self.__qty * self.__val
 
     def get_sum_float_val(self) -> float:
         """Metoda zwraca wszystkie rzeczy w postaci zmiennoprzecinkowej"""
 
         return self.__qty * self.__val / 10 ** self.__pre
 
-    def get_formatted_val(self) -> str:
-        """Metoda zwraca wartość jednej rzeczy w postaci string z precyzją"""
-
-        return ("{:." + str(self.__pre) + "f}").format(self.get_float_val())
-
-    def get_formatted_sum_val(self) -> str:
-        """Metoda zwraca wartość wszystkich rzeczy w postaci string z precyzją"""
-
-        return ("{:." + str(self.__pre) + "f}").format(self.get_sum_float_val())
 
 if __name__ == '__main__':
     print('Plik musi zostać zaimportowany')
