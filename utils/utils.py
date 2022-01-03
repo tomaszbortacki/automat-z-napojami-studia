@@ -20,7 +20,7 @@ def set_proper_text(number: int) -> str:
 
 
 def set_proper_coin(coin: (int, float)) -> str:
-    """Metoda odpowiedzialna za przpisanie poprawnych nazw do monet"""
+    """Metoda odpowiedzialna za przypisanie poprawnych nazw do monet"""
 
     if coin >= 1:
         return (str(int(coin)) if isinstance(coin, int) or coin.is_integer() else "{:.2f}".format(coin)) + ' zł'
@@ -29,7 +29,7 @@ def set_proper_coin(coin: (int, float)) -> str:
 
 
 def change_buttons_state(buttons: list[Button], button_state: bool) -> None:
-    """Metoda odpowiedzialna za włączanie i wyłączanie przyciskow"""
+    """Metoda odpowiedzialna za włączanie i wyłączanie przycisków"""
 
     for button in buttons:
         if button['text'] != statics['button_clear_text']:
@@ -45,7 +45,7 @@ def show_error(error) -> None:
 
 
 def price_generator(rng: range, qty=5):
-    """Metoda generuje losowe ceny dla produtów z danego przedzialu oraz ustawia ich ilość (Domyślnie 5)"""
+    """Metoda generuje losowe ceny dla produktów z danego przedziału oraz ustawia ich ilość (Domyślnie 5)"""
 
     for idx in rng:
         rand = random.randrange(100, 1000, qty) / 100

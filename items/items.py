@@ -1,7 +1,7 @@
 class Items:
     """
         Klasa, która przechowuje informacje o produktach, które mają takie same cechy,
-        zwłaszcza informacje o wartościach dla pojedyńczych przedmiotow
+        zwłaszcza informacje o wartościach dla pojedynczych przedmiotów
     """
 
     def __init__(self, val: (int, float), qty=1, pre=2):
@@ -47,22 +47,22 @@ class Items:
         return self.__val / 10 ** self.__pre
 
     def get_sum_int_val(self) -> int:
-        """Zwraca całkowitą dokładną wartość przemiotów w jednostce przechowywania."""
+        """Zwraca całkowitą dokładną wartość przedmiotów w jednostce przechowywania."""
 
         return self.__qty * self.__val
 
     def get_sum_float_val(self) -> float:
-        """Metoda zwraca wszystkie rzeczy w postaci zmienno przecinkowej"""
+        """Metoda zwraca wszystkie rzeczy w postaci zmiennoprzecinkowej"""
 
         return self.__qty * self.__val / 10 ** self.__pre
 
     def get_formatted_val(self) -> str:
-        """Metoda zwraca wartość jednej rzeczy w postaci stringa z precyzją"""
+        """Metoda zwraca wartość jednej rzeczy w postaci string z precyzją"""
 
         return ("{:." + str(self.__pre) + "f}").format(self.get_float_val())
 
     def get_formatted_sum_val(self) -> str:
-        """Metoda zwraca wartość wszystkich rzeczy w postaci stringa z precyzją"""
+        """Metoda zwraca wartość wszystkich rzeczy w postaci string z precyzją"""
 
         return ("{:." + str(self.__pre) + "f}").format(self.get_sum_float_val())
 

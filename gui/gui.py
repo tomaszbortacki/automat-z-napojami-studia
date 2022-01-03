@@ -12,7 +12,7 @@ class Gui:
 
         Odpowiada za rysowanie oraz interakcje użytkownika z automatem do napojów
 
-        Za jej pomocą możemy wybrać produkt oraz wrzucić odpowiednie monety, tak aby otrzymać odpowiedniu produkt
+        Za jej pomocą możemy wybrać produkt oraz wrzucić odpowiednie monety, tak aby otrzymać odpowiedni produkt
     """
 
     def __init__(self) -> None:
@@ -42,7 +42,7 @@ class Gui:
         self.__main.mainloop()
 
     def design(self) -> None:
-        """Metoda odpowiedzialna za wyświetlenie ekranu, przycisków oraz monet za pomocą tkinter'a"""
+        """Metoda odpowiedzialna za wyświetlenie ekranu, przycisków oraz monet za pomocą tkinter"""
 
         # Ekran
         self.add_screen()
@@ -201,7 +201,7 @@ class Gui:
             self.clear_screen()
 
     def pay(self, coin: float) -> None:
-        """Metoda odpowiedzialna za sterowanie mechanizmem zaplaty, oraz obsługę błędów"""
+        """Metoda odpowiedzialna za sterowanie mechanizmem zapłaty oraz obsługę błędów"""
 
         try:
             self.__core.pay(coin)

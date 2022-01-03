@@ -17,12 +17,15 @@ class Core:
     def init(cls, rng: range, qty=5):
         """Metoda, która generuje podstawową ilość produktów o podanej ilości (Domyślnie 5)"""
 
+        if not isinstance(rng, range):
+            raise TypeError("RNG must be a range type")
+
         return cls([
             product for product in price_generator(rng, qty)
         ])
 
     def get_product_price(self, number: int) -> str:
-        """Metoda wyszukuje produktu o podanym id oraz zwraca jego cene"""
+        """Metoda wyszukuje produktu o podanym id oraz zwraca jego cenę"""
 
         if not isinstance(number, int):
             raise ValueError('ID must be an int')
@@ -35,8 +38,8 @@ class Core:
 
         return "{:.2f}".format(self.__product_price)
 
-    def pay(self, coin: float) -> None:
-        """Metoda odpowiedzialna za placenie"""
+    def pay(self, coin: (int, float)) -> None:
+        """Metoda odpowiedzialna za placenta"""
 
         if not isinstance(coin, (int, float)) or coin not in coins:
             raise WrongMoneyError('Nie ma takiej waluty')
@@ -46,6 +49,7 @@ class Core:
     def clear(self):
         self.__product_number = 0
         self.__product_price = 0
+        self.__bank_temp = Bank.change()
 
     def get_money(self) -> float:
         """Metoda zwraca wartość wrzuconych monet"""

@@ -11,7 +11,7 @@ class Money(Items):
         super().__init__(coin, qty, pre)
 
     def get(self, qty):
-        """Metoda zwara ilość monet"""
+        """Metoda zwraca ilość monet"""
 
         if qty > self.get_qty():
             qty = self.get_qty()
