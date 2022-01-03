@@ -3,7 +3,7 @@ from tkinter.font import Font
 from typing import Optional
 from core import Core
 from exceptions import WrongProductError, WrongMoneyError
-from utils import utils, statics, set_proper_text, set_proper_coin, change_buttons_state, show_error
+from utils import statics, set_proper_text, set_proper_coin, change_buttons_state, show_error, coins
 
 
 class Gui:
@@ -133,9 +133,8 @@ class Gui:
                 activeforeground='#fff',
                 activebackground="#2c3e50",
                 bd=0,
-                command=lambda number=coin: self.pay(float(number)),
-                cursor="hand2"
-            ) for coin in utils.coins  # List Comprehension
+                command=lambda number=coin: self.pay(float(number))
+            ) for coin in coins  # List Comprehension
         ]
 
         for idx, coin in enumerate(self.__screen_coins):

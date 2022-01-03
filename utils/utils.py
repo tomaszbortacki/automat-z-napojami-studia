@@ -32,10 +32,11 @@ def change_buttons_state(buttons: list[Button], button_state: bool) -> None:
     """Metoda odpowiedzialna za włączanie i wyłączanie przyciskow"""
 
     for button in buttons:
-        if button['text'] != statics['button_clear_text'] and button['text'] != statics['button_accept_text']:
+        if button['text'] != statics['button_clear_text']:
             button.config(
                 state=NORMAL if button_state else DISABLED,
-                bg=statics['button_color'] if button_state else statics['button_color_disabled']
+                bg=statics['button_color'] if button_state else statics['button_color_disabled'],
+                cursor='hand2' if button_state else ''
             )
 
 
