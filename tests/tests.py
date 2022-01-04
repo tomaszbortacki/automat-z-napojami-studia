@@ -65,9 +65,19 @@ class Tests(unittest.TestCase):
         with self.assertRaises(WrongProductError):
             self.assertEqual(core.get_product_price(25), '9.90')
 
-    # def test_6(self):
-    #     """Wrzucenie kilku monet, przerwanie transakcji - oczekiwany zwrot monet."""
-    #
+    def test_6(self):
+        """Wrzucenie kilku monet, przerwanie transakcji - oczekiwany zwrot monet."""
+
+        core = Core(self.__products)
+
+        core.get_product_price(30)
+        core.pay(0.1)
+        core.pay(0.1)
+        core.pay(0.1)
+        rest = core.clear()
+
+        self.assertEqual(rest, 'Zwrócono monetę o nominale: 10 gr w ilości: 3\n')
+
     # def test_7(self):
     #     """
     #         Wrzucenie za małej kwoty, wybranie poprawnego numeru towaru,
