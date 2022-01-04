@@ -1,3 +1,6 @@
+from utils import multipy
+
+
 class Items:
     """
         Klasa, która przechowuje informacje o produktach, które mają takie same cechy,
@@ -14,7 +17,7 @@ class Items:
         if qty < 0:
             raise ValueError('QTY cannot be negative number')
 
-        self.__val = int(round(val * 10 ** pre))
+        self.__val = int(round(val * multipy(pre)(10)))
         self.__qty = qty
         self.__pre = pre
 
@@ -39,7 +42,7 @@ class Items:
     def get_float_val(self) -> float:
         """Metoda zwraca wartość danej rzeczy w postaci zmiennoprzecinkowej"""
 
-        return self.__val / 10 ** self.__pre
+        return self.__val / multipy(self.__pre)(10)
 
     def get_sum_int_val(self) -> int:
         """Metoda zwraca wszystkie rzeczy w postaci stałej"""
@@ -49,7 +52,7 @@ class Items:
     def get_sum_float_val(self) -> float:
         """Metoda zwraca wszystkie rzeczy w postaci zmiennoprzecinkowej"""
 
-        return self.__qty * self.__val / 10 ** self.__pre
+        return self.__qty * self.__val / multipy(self.__pre)(10)
 
 
 if __name__ == '__main__':

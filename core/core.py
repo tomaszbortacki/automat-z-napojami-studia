@@ -1,8 +1,19 @@
+import random
+
 from assortment import Assortment
 from bank import Bank
 from exceptions import WrongProductError, WrongMoneyError
 from money import Money
-from utils import price_generator, coins
+from product import Product
+from utils import coins
+
+
+def price_generator(rng: range, qty=5):
+    """Metoda generuje losowe ceny dla produktów z danego przedziału oraz ustawia ich ilość (Domyślnie 5)"""
+
+    for idx in rng:
+        rand = random.randrange(100, 1000, qty) / 100
+        yield Product('Produkt ' + str(idx), rand, qty)
 
 
 class Core:
@@ -10,7 +21,7 @@ class Core:
         self.__assortment = Assortment(products, 30)
         self.__product_number = 0
         self.__product_price = 0
-        self.__bank = Bank.change(1)
+        self.__bank = Bank.change(20)
         self.__bank_temp = Bank.change()
 
     @classmethod

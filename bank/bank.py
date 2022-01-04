@@ -83,7 +83,7 @@ class Bank(Wrapper):
 
         while amount > 0:
             if coin_id >= len(coins):
-                raise MoneyError('Nie można wydać reszty.\nWymagana odliczona kwota')
+                raise MoneyError('Tylko odliczona kwota')
 
             coin = coins[coin_id]
             money = self.get_info()[coin].get(math.floor(amount / coin / 100))

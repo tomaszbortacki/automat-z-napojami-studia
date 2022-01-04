@@ -1,7 +1,5 @@
-import random
 from tkinter import NORMAL, DISABLED, Button, messagebox
 from utils import statics
-from product import Product
 
 coins: list[float] = [5, 2, 1, 0.5, 0.2, 0.1, 0.05, 0.02, 0.01]  # Nominały
 
@@ -52,12 +50,13 @@ def show_error(error) -> None:
     messagebox.showerror('Error', error)
 
 
-def price_generator(rng: range, qty=5):
-    """Metoda generuje losowe ceny dla produktów z danego przedziału oraz ustawia ich ilość (Domyślnie 5)"""
+def multipy(number: (int, float)) -> (int, float):
+    """Metoda za pomocą lambdy zwraca wartość z potęgą"""
 
-    for idx in rng:
-        rand = random.randrange(100, 1000, qty) / 100
-        yield Product('Produkt ' + str(idx), rand, qty)
+    if not isinstance(number, (int, float)):
+        print('NUMBER must be an int for a float')
+
+    return lambda x: x ** number
 
 
 if __name__ == '__main__':
