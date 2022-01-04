@@ -60,7 +60,7 @@ class Bank(Wrapper):
         # string from list comprehension
         return ''.join(
             'Zwrócono monetę o nominale: ' + set_proper_coin(coin.get_float_val()) + ' w ilości: ' + str(
-                coin.get_qty()) + ' \n'
+                coin.get_qty()) + '\n'
             if coin.get_qty() > 0 else ''
             for coin in self.get_info().values()
         )
