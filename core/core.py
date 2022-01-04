@@ -10,7 +10,7 @@ class Core:
         self.__assortment = Assortment(products, 30)
         self.__product_number = 0
         self.__product_price = 0
-        self.__bank = Bank.change(100)
+        self.__bank = Bank.change(1)
         self.__bank_temp = Bank.change()
 
     @classmethod
@@ -76,11 +76,12 @@ class Core:
         self.__assortment.remove(self.__product_number, 1)
         self.__bank = self.__bank + self.__bank_temp
 
+        print(self.__product_number)
+
         return ''.join(
             'Zwrócono produkt: ' + str(self.__product_number) +
-            ('\n' + rest if rest else None)
+            ('\n' + rest if rest else '')
         )
-
 
 
 if __name__ == '__main__':
