@@ -88,7 +88,7 @@ class Core:
         self.__bank = self.__bank + self.__bank_temp
 
         return ''.join(
-            'Wydano : ' + self.__assortment.get_name(self.__product_number) +
+            'Wydano: ' + self.__assortment.get_name(self.__product_number) +
             ('\n' + rest if rest else '')
         )
 

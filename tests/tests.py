@@ -17,9 +17,18 @@ class Tests(unittest.TestCase):
         core = Core(self.__products)
         self.assertEqual(core.get_product_price(30), '7.50')
 
-    # def test_2(self):
-    #     """Wrzucenie odliczonej kwoty, zakup towaru - oczekiwany brak reszty."""
-    #
+    def test_2(self):
+        """Wrzucenie odliczonej kwoty, zakup towaru - oczekiwany brak reszty."""
+
+        core = Core(self.__products)
+        core.get_product_price(30)
+        core.pay(5)
+        core.pay(2)
+        info = core.pay(0.5)
+
+        # Metoda u mnie zwraca string'a i jeżeli zawiera on samą nazwę produktu, to znaczy, że nie ma reszty
+        self.assertEqual(info, 'Wydano: Produkt 1')
+
     # def test_3(self):
     #     """Wrzucenie większej kwoty, zakup towaru - oczekiwana reszta."""
     #
