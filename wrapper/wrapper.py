@@ -31,6 +31,11 @@ class Wrapper:
 
         self.__info[one_type].get(qty)
 
+    def get_name(self, one_type: int) -> str:
+        """Metoda zwraca nazwę produktu"""
+
+        return self.__info[one_type].get_name()
+
     def get_info(self) -> dict:
         """Zwraca informacje, które są przechowywane w tym obiekcie"""
 

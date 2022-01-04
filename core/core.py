@@ -87,10 +87,8 @@ class Core:
         self.__assortment.remove(self.__product_number, 1)
         self.__bank = self.__bank + self.__bank_temp
 
-        print(self.__product_number)
-
         return ''.join(
-            'Zwrócono produkt: ' + str(self.__product_number) +
+            'Wydano : ' + self.__assortment.get_name(self.__product_number) +
             ('\n' + rest if rest else '')
         )
 

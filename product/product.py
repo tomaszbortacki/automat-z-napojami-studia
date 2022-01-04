@@ -32,3 +32,8 @@ class Product(Items):
         self.set_qty(-qty)
 
         return Product(self.__name, self.get_float_val(), qty)
+
+    def get_name(self):
+        """Metoda zwraca nazwe produktu"""
+
+        return self.__name

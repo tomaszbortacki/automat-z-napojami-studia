@@ -1,1 +1,1 @@
-from .core import Core
+from .core import Core, price_generator
