@@ -1,10 +1,3 @@
-class RestError(Exception):
-    """Wyjątek - Nie można wydać reszty"""
-
-    def __init__(self, *args: object) -> None:
-        super().__init__(*args)
-
-
 class MoneyError(Exception):
     """Wyjątek - brak wydania danej ilości monet"""
 

@@ -10,13 +10,27 @@ class Money(Items):
         self.__curr = curr
         super().__init__(coin, qty, pre)
 
-    def get(self, qty):
-        """Metoda zwraca ilość monet"""
+    def set(self, qty: int):
+        """Metoda ustawia ilość monet"""
+
+        if not isinstance(qty, int):
+            raise TypeError("QTY must be a float")
 
         if qty > self.get_qty():
             qty = self.get_qty()
 
-        self.__qty -= qty
+        self.set_qty(qty)
+
+    def get(self, qty: int):
+        """Metoda zwraca ilość monet"""
+
+        if not isinstance(qty, int):
+            raise TypeError("QTY must be a float")
+
+        if qty > self.get_qty():
+            qty = self.get_qty()
+
+        self.set_qty(-qty)
         return Money(self.get_float_val(), qty)
 
 

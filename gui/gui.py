@@ -2,8 +2,8 @@ from tkinter import Tk, Label, StringVar, Button, messagebox, NORMAL
 from tkinter.font import Font
 from typing import Optional
 from core import Core
-from exceptions import WrongProductError, WrongMoneyError
-from utils import statics, set_proper_text, set_proper_coin, change_buttons_state, show_error, coins
+from exceptions import WrongProductError, WrongMoneyError, MoneyError, EmptyProductError
+from utils import statics, set_proper_text, set_proper_coin, change_buttons_state, show_error, coins, show_info
 
 
 class Gui:
@@ -170,13 +170,15 @@ class Gui:
 
         self.__screen_text.set(self.__screen_current_number)
 
-    def clear_screen(self) -> None:
+    def clear_screen(self, ok=False) -> None:
         """Metoda odpowiedzialna za czyszczenie ekranu"""
 
         self.__screen_current_number = ''
         self.__screen_text.set(statics['default_text_screen'])
         self.__screen_price_text.set('')
-        self.__core.clear()
+
+        rest = self.__core.clear(ok)
+        show_info(rest) if rest else None
 
         change_buttons_state(self.__screen_buttons, True)
         change_buttons_state(self.__screen_coins, False)
@@ -205,12 +207,25 @@ class Gui:
         """Metoda odpowiedzialna za sterowanie mechanizmem zapłaty oraz obsługę błędów"""
 
         try:
-            self.__core.pay(coin)
+            info = self.__core.pay(coin)
             self.__screen_text.set(statics['inserted'] + set_proper_coin(self.__core.get_money()))
+
+            if isinstance(info, str) and info:
+                show_info(info)
+                self.clear_screen(True)
+
         except WrongMoneyError as e:
             show_error(e)
+            self.clear_screen()
         except WrongProductError as e:
             show_error(e)
+            self.clear_screen()
+        except EmptyProductError as e:
+            show_error(e)
+            self.clear_screen()
+        except MoneyError as e:
+            show_error(e)
+            self.clear_screen()
 
 
 if __name__ == '__main__':

@@ -21,7 +21,7 @@ class Items:
     def set_qty(self, add_qty) -> None:
         """Metoda dodaje odpowiednia ilość monet"""
 
-        if add_qty < 0:
+        if self.__qty < 0 or self.__qty <= 0 and add_qty < 0:
             raise ValueError('QTY cannot be negative')
 
         self.__qty += add_qty
@@ -40,6 +40,11 @@ class Items:
         """Metoda zwraca wartość danej rzeczy w postaci zmiennoprzecinkowej"""
 
         return self.__val / 10 ** self.__pre
+
+    def get_sum_int_val(self) -> int:
+        """Metoda zwraca wszystkie rzeczy w postaci stałej"""
+
+        return self.__qty * self.__val
 
     def get_sum_float_val(self) -> float:
         """Metoda zwraca wszystkie rzeczy w postaci zmiennoprzecinkowej"""

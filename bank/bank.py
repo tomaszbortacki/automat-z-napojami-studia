@@ -1,3 +1,6 @@
+import math
+
+from exceptions import MoneyError
 from money import Money
 from utils import coins, set_proper_coin
 from wrapper import Wrapper
@@ -5,9 +8,7 @@ from wrapper import Wrapper
 
 class Bank(Wrapper):
     def __init__(self, money):
-        self.__coins = coins
-        self.__coins.sort(reverse=True)
-        super().__init__(self.__coins, money)
+        super().__init__(coins, money)
 
     def __add__(self, other):
         """Metoda, która dodaje dwa obiekty do siebie"""
@@ -15,21 +16,10 @@ class Bank(Wrapper):
         if not isinstance(other, Bank) or list(self.get_info().keys()) != list(self.get_info().keys()):
             raise TypeError('Objects must be the same')
 
-        temp_bank = Bank.change()
         for coin in coins:
-            temp_bank[coin].set(other.get_info()[coin].get_qty() + self.get_info()[coin].get_qty())
-        return temp_bank
+            self.get_info()[coin].set(other.get_info()[coin].get_qty())
 
-    def __eq__(self, other) -> bool:
-        """Metoda porównuje dwa obiekty banku"""
-
-        if list(self.get_info().keys()) != list(self.get_info().keys()):
-            raise TypeError('Objects must be the same')
-
-        for coin in coins:
-            if self.get_info()[coin].get_qty() != other.get_info()[coin].get_qty():
-                return False
-        return True
+        return self
 
     @classmethod
     def change(cls, qty=0):
@@ -69,10 +59,39 @@ class Bank(Wrapper):
 
         # string from list comprehension
         return ''.join(
-            'Zwrócono monetę o nominale: ' + set_proper_coin(coin.get_float_val()) + ' w ilości: ' + str(coin.get_qty()) + ' \n'
+            'Zwrócono monetę o nominale: ' + set_proper_coin(coin.get_float_val()) + ' w ilości: ' + str(
+                coin.get_qty()) + ' \n'
             if coin.get_qty() > 0 else ''
             for coin in self.get_info().values()
         )
+
+    def get_diff(self, amount: (int, float)) -> (Money, int):
+        """Metoda zwraca resztę"""
+
+        if not isinstance(amount, (int, float)):
+            raise TypeError('AMOUNT must be an int or a float')
+
+        if amount < 0:
+            raise ValueError("AMOUNT cannot be negative")
+
+        if amount == 0:
+            return 0
+
+        amount = round(amount * 100)  # przeciwdziała floatowi, usuwa niepełne wartości typu: 10 miejsc po przecinku
+        coin_id = 0
+        rest = Bank.change()
+
+        while amount > 0:
+            if coin_id >= len(coins):
+                raise MoneyError('Nie można wydać reszty.\nWymagana odliczona kwota')
+
+            coin = coins[coin_id]
+            money = self.get_info()[coin].get(math.floor(amount / coin / 100))
+            amount -= money.get_sum_int_val()
+            coin_id += 1
+            rest.load(money)
+
+        return rest.get_rest()
 
 
 if __name__ == '__main__':

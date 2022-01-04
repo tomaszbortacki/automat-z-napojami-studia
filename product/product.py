@@ -1,4 +1,4 @@
-from exceptions import WrongProductError
+from exceptions import EmptyProductError
 from items import Items
 
 
@@ -27,8 +27,8 @@ class Product(Items):
         """Metoda zwraca podaną ilość produktów"""
 
         if qty > self.get_qty():
-            raise WrongProductError('Not enough products')
+            raise EmptyProductError('Produkt się skończył')
 
-        self.__qty -= qty
+        self.set_qty(-qty)
 
-        return Product(self.__name, self.__val, qty)
+        return Product(self.__name, self.get_float_val(), qty)

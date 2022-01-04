@@ -26,12 +26,14 @@ class Wrapper:
 
         raise NotImplementedError('Method (__add__) is not implemented')
 
-    def get(self, one_type: str, qty: int) -> Items:
-        """Metoda zwraca dany przedmiot"""
+    def remove(self, one_type: int, qty: int) -> None:
+        """Metoda usuwa dany przedmiot"""
 
-        return self.__info[one_type].take(qty)
+        self.__info[one_type].get(qty)
 
     def get_info(self) -> dict:
+        """Zwraca informacje, które są przechowywane w tym obiekcie"""
+
         return self.__info
 
     def get_price(self, number: int) -> float:

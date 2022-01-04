@@ -2,7 +2,7 @@ from assortment import Assortment
 from bank import Bank
 from exceptions import WrongProductError, WrongMoneyError
 from money import Money
-from utils import price_generator, coins, show_info
+from utils import price_generator, coins
 
 
 class Core:
@@ -10,7 +10,7 @@ class Core:
         self.__assortment = Assortment(products, 30)
         self.__product_number = 0
         self.__product_price = 0
-        self.__bank = Bank.change(50)
+        self.__bank = Bank.change(100)
         self.__bank_temp = Bank.change()
 
     @classmethod
@@ -38,7 +38,7 @@ class Core:
 
         return "{:.2f}".format(self.__product_price)
 
-    def pay(self, coin: (int, float)) -> None:
+    def pay(self, coin: (int, float)) -> str:
         """Metoda odpowiedzialna za placenta"""
 
         if not isinstance(coin, (int, float)) or coin not in coins:
@@ -50,23 +50,37 @@ class Core:
         self.__bank_temp.load(Money(coin, 1))
 
         if self.__bank_temp.get_amount() >= self.__product_price:
-            print('zapłacono wystarczająco')
+            return self.get_product_and_rest()
 
-    def clear(self) -> None:
+    def clear(self, ok=False) -> (None, str):
         """Metoda czyści transakcje oraz zwraca wrzucone monety, jeżeli została ona wcześniej przerwana"""
 
         rest = self.__bank_temp.get_rest()
-        if rest:
-            show_info(rest)
 
         self.__product_number = 0
         self.__product_price = 0
         self.__bank_temp = Bank.change()
 
+        if not ok:
+            return rest
+
     def get_money(self) -> float:
         """Metoda zwraca wartość wrzuconych monet"""
 
         return self.__bank_temp.get_amount()
+
+    def get_product_and_rest(self) -> str:
+        """Metoda wydaje produkt oraz resztę i wyrzuca błędy, jeżeli jakieś napotka"""
+
+        rest = self.__bank.get_diff(self.__bank_temp.get_amount() - self.__product_price)
+        self.__assortment.remove(self.__product_number, 1)
+        self.__bank = self.__bank + self.__bank_temp
+
+        return ''.join(
+            'Zwrócono produkt: ' + str(self.__product_number) +
+            ('\n' + rest if rest else None)
+        )
+
 
 
 if __name__ == '__main__':
