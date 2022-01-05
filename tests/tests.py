@@ -48,10 +48,11 @@ class Tests(unittest.TestCase):
         """Wykupienie całego asortymentu, próba zakupu po wyczerpaniu towaru - oczekiwana informacja o braku."""
 
         core = Core(self.__products)
-
         core.get_product_price(30)
         core.pay(5)
-        core.pay(2)
+        info = core.pay(5)
+        core.clear(5)
+        self.assertEqual(info, 'Wydano: Produkt 1\nZwrócono monetę o nominale: 10 gr w ilości: 1\n')
 
         core.get_product_price(30)
         core.pay(5)
@@ -69,7 +70,6 @@ class Tests(unittest.TestCase):
         """Wrzucenie kilku monet, przerwanie transakcji - oczekiwany zwrot monet."""
 
         core = Core(self.__products)
-
         core.get_product_price(30)
         core.pay(0.1)
         core.pay(0.1)
@@ -78,18 +78,36 @@ class Tests(unittest.TestCase):
 
         self.assertEqual(rest, 'Zwrócono monetę o nominale: 10 gr w ilości: 3\n')
 
-    # def test_7(self):
-    #     """
-    #         Wrzucenie za małej kwoty, wybranie poprawnego numeru towaru,
-    #         wrzucenie reszty monet do odliczonej kwoty, ponowne wybranie poprawnego numeru towaru
-    #     """
-    #
-    # def test_8(self):
-    #     """Oczekiwany brak reszty."""
-    #
-    # def test_9(self):
-    #     """
-    #         Zakup towaru płacąc po 1 gr - suma stu monet ma być równa 1zł
-    #         (dla floatów suma sto razy 0.01+0.01+...+0.01 nie będzie równa 1.0).
-    #         Płatności można dokonać za pomocą pętli for w interpreterze.
-    #     """
+    def test_7(self):
+        """
+            Wrzucenie za małej kwoty, wybranie poprawnego numeru towaru,
+            wrzucenie reszty monet do odliczonej kwoty, ponowne wybranie poprawnego numeru towaru
+            - oczekiwany brak reszty
+        """
+
+        core = Core(self.__products)
+        core.pay(5)
+        core.pay(2)
+        core.pay(2)
+        core.get_product_price(30)
+        core.pay(0.5)
+        core.pay(0.2)
+        info = core.pay(0.2)
+
+        self.assertEqual(info, 'Wydano: Produkt 1')  # Brak resztu
+
+    def test_8(self):
+        """
+            Zakup towaru płacąc po 1 gr - suma stu monet ma być równa 1zł
+            (dla floatów suma sto razy 0.01+0.01+...+0.01 nie będzie równa 1.0).
+            Płatności można dokonać za pomocą pętli for w interpreterze.
+        """
+
+        core = Core(self.__products)
+        core.get_product_price(30)
+        for i in range(989):  # W pętli obracamy 9.89zł
+            core.pay(0.01)
+
+        rest = core.pay(0.01)  # Ostatni grosz zwraca produkt
+
+        self.assertEqual(rest, 'Wydano: Produkt 1')  # Bez reszty

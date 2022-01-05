@@ -55,12 +55,13 @@ class Core:
         if not isinstance(coin, (int, float)) or coin not in coins:
             raise WrongMoneyError('Nie ma takiej waluty')
 
-        if not self.__product_price or not self.__product_number:
-            raise WrongProductError('Nie wybrano produktu')
+        # Możliwość płacenia jest wyłączona do momentu wybrania produktu, ale ze względnu na test_7 komentuje warunek
+        # if not self.__product_price or not self.__product_number:
+        #     raise WrongProductError('Nie wybrano produktu')
 
         self.__bank_temp.load(Money(coin, 1))
 
-        if self.__bank_temp.get_amount() >= self.__product_price:
+        if self.__product_price != 0 and self.__bank_temp.get_amount() >= self.__product_price:
             return self.get_product_and_rest()
 
     def clear(self, ok=False) -> (None, str):
