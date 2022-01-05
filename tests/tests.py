@@ -52,12 +52,13 @@ class Tests(unittest.TestCase):
         core.pay(5)
         info = core.pay(5)
         core.clear(5)
+        # Sprawdzenie, czy pierwszy produkt został wydany
         self.assertEqual(info, 'Wydano: Produkt 1\nZwrócono monetę o nominale: 10 gr w ilości: 1\n')
 
         core.get_product_price(30)
         core.pay(5)
         with self.assertRaises(EmptyProductError):
-            core.pay(5)
+            core.pay(5)  # Wyrzuci błąd o braku produkty
 
     def test_5(self):
         """Sprawdzenie ceny towaru o nieprawidłowym numerze (<30 lub >50) - oczekiwana informacja o błędzie."""
@@ -94,7 +95,7 @@ class Tests(unittest.TestCase):
         core.pay(0.2)
         info = core.pay(0.2)
 
-        self.assertEqual(info, 'Wydano: Produkt 1')  # Brak resztu
+        self.assertEqual(info, 'Wydano: Produkt 1')  # Brak reszty
 
     def test_8(self):
         """
