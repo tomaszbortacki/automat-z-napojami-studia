@@ -13,7 +13,7 @@ def price_generator(rng: range, qty=5):
 
     for idx in rng:
         rand = random.randrange(100, 1000, qty) / 100
-        yield Product('Produkt ' + str(idx), rand, qty)
+        yield Product('Napój ' + str(idx), rand, qty)
 
 
 class Core:

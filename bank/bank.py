@@ -7,6 +7,9 @@ from wrapper import Wrapper
 
 
 class Bank(Wrapper):
+    """
+
+    """
     def __init__(self, money):
         super().__init__(coins, money)
 
