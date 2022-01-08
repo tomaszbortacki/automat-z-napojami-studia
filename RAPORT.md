@@ -95,6 +95,8 @@ Ma informacje, które są re używalne jak, tekst, który zmienia się na ekrani
 
 ## [Testy](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/tests/tests.py)
 
+Wykorzystujemy bibliotekę do testów: **unittest**
+
 - ### [test_1](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/tests/tests.py#L15)
 
 Sprawdzenie ceny jednego towaru - oczekiwana informacja o cenie. Sprawdza metodę **get_product_price**
