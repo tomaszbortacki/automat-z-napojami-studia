@@ -26,58 +26,87 @@ Zwraca też same wrzucone pieniądze w momencie, gdy przerwiemy transakcję
 
 ## Klasy i samodzielne funkcje zawarte w projekcie
 
-- ### Klasa [main](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/main.py)
+### Klasa [main](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/main.py)
 
 Klasa odpowiada za włączenie automatu, wyświetla odpowiedni komunikat w konsoli oraz załącza klasę **gui**
 
-- ### Klasa [gui](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/gui/gui.py)
+### Klasa [gui](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/gui/gui.py)
 
 Klasa odpowiada za wyświetlenie interfejsu automatu oraz inicjuje wszystkie interakcje w automacie.
 Możemy w niej wybierać produkty oraz wrzucać odpowiednie monety. Zostają one obsłużone i przekazane do klasy **core**,
 w której dostajemy odpowiednie produkty, informacje, o stanie, ich braku, czy też, że produkt został wydany
 
-- ### Klasa [core](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/core/core.py)
+- [__init__](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/gui/gui.py#L18): 
+wykorzystując bibliotekę **tkinter** tworzymy podstawowe wartości dla ekranu oraz z tworzymy obiekt automatu
+z klasy **core**
+- [design](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/gui/gui.py#L44): 
+Tutaj inicjujemy wszystkie metody, które są odpowiedzialne za utworzenie layoutu automatu oraz tworzy siatkę,
+w której siedzą odpowiednie guziki i ekran
+- [add_screen](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/gui/gui.py#L61):
+metoda odpowiedzialna za dodawanie ekranu. Tworzy trzy instacje **Label** z tkintera. Pierwsza zapobiega przesuwaniu się ekrany,
+druga dodaje ekran główny, na którym wyświetlają się najważniejsze informacje oraz trzecia, która wyświetla cene wybranego produktu
+- [add_buttons](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/gui/gui.py#L97): 
+Tworzy tablice przycisków **-09**, **CLS** oraz **OK** Za pomocą **List Comprehension**, oraz ustawia je w odpowiednich miejscach w siatce ekranu.
+Każdy z przycisków używa **lambda** To wywoływania metod, które są do nich przypisane z wartościami, które ma każdy przycisk osobne
+- [add_coins](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/gui/gui.py#L123):
+Robi dokładnie to samo co metoda **add_coins**, jednak w tym przypadku tworzy tablicę przycisków z monetami.
+Każdy z przycisków używa **lambda** To wywoływania metod, które są do nich przypisane z wartościami, które ma każdy przycisk osobne
+- [choose_product](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/gui/gui.py#L148):
+Metoda przypisana do przycisków, które tworzy **add_buttons**, odpowiedzialna za wybór produktu oraz przerywanie transakcji
+- [clear_screen](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/gui/gui.py#L173): 
+Metoda odpowiedzialna za czyszczenie ekranu w przypadku, gdy zostanie przerwana transakcja lub w trakcie płacenia wystąpi błąd
+- [set_price](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/gui/gui.py#L186):
+Metoda odpowiedzialna za wyświetlenie ceny produktu w przypadku, gdy zostanie któryś wybrany
+- [find_product](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/gui/gui.py#L191):
+Szuka produktu i jeżeli go znajdzie, to przełącza automat w tryb wrzucania monet. 
+Następnie pokazuje ile pieniędzy sumarycznie zostało wrzuconych do automatu.
+W przypadku błędów wyświetla je nam na ekranie
+- [pay](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/gui/gui.py#L206):
+Metoda przypisana do guzików, które tworzy metoda **add_coins**. Odpowiada za płacenie danym typem monety i jeżeli zostanie wrzucona odpowiednia ilość lub więcej za produkt,
+to automat wydaje produkt oraz resztę. W przypadku błędów wyświetla je nam na ekranie
+
+### Klasa [core](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/core/core.py)
 
 Metoda generuje nam tablice z produktami i ich cenami, które są przechowywane następnie w klasie **assortment**.
 Mamy w niej metody, które odpowiadają za sprawdzanie stanu, wprowadzanie monet i wydawanie produktów. 
 W przypadku błędów są one zwracane w tej klasie do klasy **gui** i wyświetlane użytkownikowi
 
-- ### Klasa [assortment](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/assortment/assortment.py)
+### Klasa [assortment](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/assortment/assortment.py)
 
 Przechowujemy w niej produktach oraz ich ilościach. Wykorzystujemy do tego klasę **wrapper**. 
 Posiada ona metodę, która zwraca informacje o stanie produktu o podanym ID. Przez to jesteśmy w stanie
 stwierdzić, czy produkt się nie skończył
 
-- ### Klasa [bank](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/bank/bank.py)
+### Klasa [bank](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/bank/bank.py)
 
 Przechowujemy tutaj informacje o stanie monet. Klasa jest wykorzystywana do przechowywania monet w automacie, jak i tych, 
 które zostają wrzucone w trakcie wydawania produktu. Wykonują się tutaj akcje jak czyszczenie banku, 
 łączenie dwóch ze sobą (Dodaje monety do siebie, jeżeli transakcja dojdzie do skutku). Tak jak w przypadku klasy
 **assortment* wykorzystuje ona klasę **wrapper**
 
-- ### Klasa [exceptions](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/exceptions/exceptions.py)
+### Klasa [exceptions](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/exceptions/exceptions.py)
 
 Posiada ona niestandardowe klasy błędów, przez które możemy następnie zwracać informacje o błędach w aplikacji
 
-- ### Klasa [items](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/items/items.py)
+### Klasa [items](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/items/items.py)
 
 Ma informacje o pojedynczych rzeczach. Możemy tutaj sprawdzić cenę czy ilość.
 
-- ### Klasa [money](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/money/money.py)
+### Klasa [money](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/money/money.py)
 
 Ma informacje o danej monecie, takie jak ilość oraz wartość. Możemy w niej również dodawać nowe monety
 
-- ### Klasa [product](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/product/product.py)
+### Klasa [product](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/product/product.py)
 
 Wykorzystuje klasę **items**. Pozwala nam te samą metodę abstrakcyjną oraz metodę, która pozwala nam zwrócić nazwę produktu
 
-- ### Klasa [wrapper](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/wrapper/wrapper.py)
+### Klasa [wrapper](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/wrapper/wrapper.py)
 
 Klasa przechowująca słownik przedmiotów z identyfikatorami, dzięki czemu mamy posegregowane przedmioty według ich rodzaju.
 Pozwala nam usuwać produkty, pobierać nazwę produktu, danego typu, zwracać słownik z przedmiotami oraz pobierać
 cenę produków o danym typie
 
-- ### Plik ze statycznymi metodami [utils](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/utils/utils.py)
+### Plik ze statycznymi metodami [utils](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/utils/utils.py)
 
 Przechowujemy tutaj metody, które są re używalne, jak na przykład:
 
@@ -89,7 +118,7 @@ ustawia odpowiedni typ monety na ekranie
 
 Są tam również metody, które zmieniają stan przycisków w aplikacji oraz metody odpowiedzialne za wyświetlanie błędów czy informacji na ekranie
 
-- ### Plik ze słownikiem [dictionary](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/utils/dictionary.py)
+### Plik ze słownikiem [dictionary](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/utils/dictionary.py)
 
 Ma informacje, które są re używalne jak, tekst, który zmienia się na ekranie, czy kolory aplikacji
 
@@ -97,45 +126,45 @@ Ma informacje, które są re używalne jak, tekst, który zmienia się na ekrani
 
 Wykorzystujemy bibliotekę do testów: **unittest**
 
-- ### [test_1](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/tests/tests.py#L15)
+### [test_1](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/tests/tests.py#L15)
 
 Sprawdzenie ceny jednego towaru - oczekiwana informacja o cenie. Sprawdza metodę **get_product_price**
 z klasy **core**. Zwraca ona cenę w postaci float i porównuje ją do tego co zostało utworzone przed testami
 
-- ### [test_2](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/tests/tests.py#L21)
+### [test_2](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/tests/tests.py#L21)
 
 Wrzucenie odliczonej kwoty, zakup towaru - oczekiwany brak reszty. Wybiera pierwszy produkt o id 30 i wykorzystując metodę
 **pay** klasy **core** płaci odpowiednimi monetami za produkt, a następnie zwraca produkt. Cena była wyliczona, 
 przez co spodziewamy się, że nie dostaniemy reszty
 
-- ### [test_3](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/tests/tests.py#L37)
+### [test_3](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/tests/tests.py#L37)
 
 Wrzucenie większej kwoty, zakup towaru - oczekiwana reszta. Jak w przypadku wcześniejszego testu, płacimy odpowiednimi metodami,
 jednak tym razem płacimy więcej i spodziewamy się informacji o reszcie 
 
-- ### [test_4](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/tests/tests.py#L47)
+### [test_4](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/tests/tests.py#L47)
 
 Wykupienie całego asortymentu, próba zakupu po wyczerpaniu towaru - oczekiwana informacja o braku.
 Kupujemy jeden produkt, a następnie drugi, jednak w asortymencie był jednie jeden produkt, przez co za drugim razem spodziewamy się błędu:
 **EmptyProductError**
 
-- ### [test_5](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/tests/tests.py#L63)
+### [test_5](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/tests/tests.py#L63)
 
 Sprawdzenie ceny towaru o nieprawidłowym numerze (<30 lub >50) - oczekiwana informacja o błędzie.
 Próbujemy wybrać produkt z zakresu, w którym nie mamy produktów i oczekujemy błędu:
 **WrongProductError**
 
-- ### [test_6](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/tests/tests.py#L70)
+### [test_6](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/tests/tests.py#L70)
 
 Wrzucenie kilku monet, przerwanie transakcji - oczekiwany zwrot monet. Wybieramy produkt, a następnie za niego płacimy, jednak niewystarczająco 
 i przerywamy transakcję. Oczekujemy informacji o zwrocie wrzuconych monet.
 
-- ### [test_7](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/tests/tests.py#L82)
+### [test_7](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/tests/tests.py#L82)
 
 Wrzucenie za małej kwoty, wybranie poprawnego numeru towaru, wrzucenie reszty monet do odliczonej kwoty, ponowne wybranie poprawnego numeru towaru
 - oczekiwany brak reszty.
 
-- ### [test_8](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/tests/tests.py#L100)
+### [test_8](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/tests/tests.py#L100)
 
 Zakup towaru płacąc po 1 gr - suma stu monet ma być równa 1zł (dla floatów suma sto razy 0.01+0.01+...+0.01 nie będzie równa 1.0).
 Płatności można dokonać za pomocą pętli for w interpreterze. Wybieramy produkt o cenie 9.90, a następnie wpłacimy za niego po 1gr.
