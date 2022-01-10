@@ -71,11 +71,29 @@ Metoda generuje nam tablice z produktami i ich cenami, które są przechowywane 
 Mamy w niej metody, które odpowiadają za sprawdzanie stanu, wprowadzanie monet i wydawanie produktów. 
 W przypadku błędów są one zwracane w tej klasie do klasy **gui** i wyświetlane użytkownikowi
 
+- [price_generator](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/core/core.py#L11):
+Generator, poza klasą główną, służy do generowania tablicy produków o losowej cenie w podanym przedziale
+- [init](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/core/core.py#L28):
+Metoda klasy, odpowiedzialna za generowanie produków, które następnie tworzą w głównym konstruktorze klasę i odpowiednie metody, które są do niej potrzebne
+- [get_product_price](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/core/core.py#L38):
+Metoda wyszukuje produktu o podanym id oraz zwraca jego cenę
+- [pay](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/core/core.py#L52):
+Metoda odpowiedzialna za płacenie. Wrzuca monety do automatu i sprawdza, czy została wrzucona odpowiednia ilość monet. jeżeli tak, to zwraca produkt i resztę
+- [clear](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/core/core.py#L67):
+Metoda czyści transakcje oraz zwraca wrzucone monety, jeżeli została ona wcześniej przerwana
+- [get_money](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/core/core.py#L79):
+Metoda zwraca wartość wrzuconych monet
+- [get_product_and_rest](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/core/core.py#L84):
+Metoda wydaje produkt oraz resztę i wyrzuca błędy, jeżeli jakieś napotka
+
 ### Klasa [assortment](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/assortment/assortment.py)
 
 Przechowujemy w niej produktach oraz ich ilościach. Wykorzystujemy do tego klasę **wrapper**. 
 Posiada ona metodę, która zwraca informacje o stanie produktu o podanym ID. Przez to jesteśmy w stanie
-stwierdzić, czy produkt się nie skończył
+stwierdzić, czy produkt się nie skończył. Sama klasa korzysta z **List comprehension** do utworzenia tablicy produktowej, która została przekazana z **core**, zaczynając podstawowo od indexu = 30
+
+- [get_qty](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/assortment/assortment.py#L27):
+Metoda zwraca informacje i stanie produktów o podanym id, czy przypadkiem się nie skończył
 
 ### Klasa [bank](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/bank/bank.py)
 
@@ -84,37 +102,92 @@ które zostają wrzucone w trakcie wydawania produktu. Wykonują się tutaj akcj
 łączenie dwóch ze sobą (Dodaje monety do siebie, jeżeli transakcja dojdzie do skutku). Tak jak w przypadku klasy
 **assortment* wykorzystuje ona klasę **wrapper**
 
+- [__add__](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/bank/bank.py#L16):
+Metoda, która dodaje dwa obiekty do siebie. Dodając tym samym nowe monety, po zatwierdzeniu opłaty za produkt
+- [change](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/bank/bank.py#L28):
+Metoda klasowa odpowiedzialna za przypisanie ilości danej waluty, 
+jeżeli nie zostanie podany parametr to metoda tworzy pusty bank
+- [set](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/bank/bank.py#L35):
+Metoda dodaje monety do odpowiednich miejsc
+- [load](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/bank/bank.py#L43):
+Metoda po odpowiedniej wartości monety ustawia jej ilość
+- [get_amount](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/bank/bank.py#L43):
+Metoda zwraca sumę wszystkich monet w banku
+- [get_rest](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/bank/bank.py#L60):
+Metoda zwraca wrzucone monety.
+- [get_diff](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/bank/bank.py#L71):
+Metoda w przypadku zatwierdzenia transakcji zwraca resztę
+
 ### Klasa [exceptions](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/exceptions/exceptions.py)
 
 Posiada ona niestandardowe klasy błędów, przez które możemy następnie zwracać informacje o błędach w aplikacji
 
 ### Klasa [items](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/items/items.py)
 
-Ma informacje o pojedynczych rzeczach. Możemy tutaj sprawdzić cenę czy ilość.
+Ma informacje o pojedynczych rzeczach. Możemy tutaj sprawdzić cenę, czy ilość.
+
+- [set_qty](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/items/items.py#L24):
+Metoda dodaje odpowiednia ilość monet
+- [get_qty](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/items/items.py#L37):
+Metoda zwraca ilość rzeczy
+- [get_float_val](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/items/items.py#L42):
+Metoda zwraca wartość danej rzeczy w postaci zmiennoprzecinkowej
+- [get_sum_int_val](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/items/items.py#L47):
+Metoda zwraca sumę wszystkich rzeczy w postaci stałej
+- [get_sum_float_val](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/items/items.py#L52):
+Metoda zwraca sumę wszystkie rzeczy w postaci zmiennoprzecinkowej
 
 ### Klasa [money](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/money/money.py)
 
 Ma informacje o danej monecie, takie jak ilość oraz wartość. Możemy w niej również dodawać nowe monety
 
+- [set](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/money/money.py#L13):
+Metoda ustawia ilość monet
+- [get](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/money/money.py#L24):
+Metoda zwraca ilość monet
+
 ### Klasa [product](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/product/product.py)
 
 Wykorzystuje klasę **items**. Pozwala nam te samą metodę abstrakcyjną oraz metodę, która pozwala nam zwrócić nazwę produktu
+
+- [get](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/product/product.py#L26):
+Metoda zwraca podaną ilość produktu
+- [get_name](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/product/product.py#L36):
+Metoda zwraca nazwę produktu
 
 ### Klasa [wrapper](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/wrapper/wrapper.py)
 
 Klasa przechowująca słownik przedmiotów z identyfikatorami, dzięki czemu mamy posegregowane przedmioty według ich rodzaju.
 Pozwala nam usuwać produkty, pobierać nazwę produktu, danego typu, zwracać słownik z przedmiotami oraz pobierać
-cenę produków o danym typie
+cenę produktów o danym typie
+
+- [remove](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/wrapper/wrapper.py#L29):
+Metoda usuwa dany przedmiot. Usuwa po wydaniu produktu
+- [get_name](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/wrapper/wrapper.py#L34):
+Metoda zwraca nazwę produktu
+- [get_info](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/wrapper/wrapper.py#L39):
+Zwraca informacje, które są przechowywane w tym obiekcie. Na przykład: Produkty o podanym typie
+- [get_price](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/wrapper/wrapper.py#L44):
+Metoda zwraca cenę przedmiotu o podanym id
+- [set](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/wrapper/wrapper.py#L49):
+Metoda abstrakcyjna zakłada dodanie danej ilości przedmiotów do danego typu danych
 
 ### Plik ze statycznymi metodami [utils](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/utils/utils.py)
 
 Przechowujemy tutaj metody, które są re używalne, jak na przykład:
 
-[set_proper_text](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/utils/utils.py#L7) - 
-ustawia nam odpowiedni tekst na przyciskach
-
-[set_proper_coin](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/utils/utils.py#L20) - 
-ustawia odpowiedni typ monety na ekranie
+- [set_proper_text](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/utils/utils.py#L7):
+Ustawia nam odpowiedni tekst na przyciskach
+- [set_proper_coin](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/utils/utils.py#L20):
+Ustawia odpowiedni typ monety na ekranie. W zależności od wrzuconych monet dobiera odpowiedni format, żeby na ekranie wyświetlało się na przykład: 10gr lub 1.05zł
+- [change_buttons_state](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/utils/utils.py#L29):
+Metoda odpowiedzialna za włączanie i wyłączanie przycisków
+- [show_info](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/utils/utils.py#L41):
+Metoda wyświetla modal z informacjami np: Jaki produkt zwrócono, czy resztę
+- [show_error](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/utils/utils.py#L47):
+Metoda wyświetla modal z błędami np: Złe wykorzystanie metody, wprowadzenie do niej złych parametrów
+- [multipy](https://github.com/tomaszbortacki/automat-z-napojami-studia/blob/master/utils/utils.py#L53)
+Metoda za pomocą lambdy zwraca wartość potęgi
 
 Są tam również metody, które zmieniają stan przycisków w aplikacji oraz metody odpowiedzialne za wyświetlanie błędów czy informacji na ekranie
 

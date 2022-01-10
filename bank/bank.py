@@ -8,8 +8,11 @@ from wrapper import Wrapper
 
 class Bank(Wrapper):
     """
-
+        Przechowujemy tutaj informacje o stanie monet.
+        Klasa jest wykorzystywana do przechowywania monet w automacie, jak i tych,
+        które zostają wrzucone w trakcie wydawania produktu
     """
+
     def __init__(self, money):
         super().__init__(coins, money)
 
