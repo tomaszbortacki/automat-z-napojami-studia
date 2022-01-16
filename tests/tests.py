@@ -14,12 +14,14 @@ class Tests(unittest.TestCase):
 
     def test_1(self):
         """Sprawdzenie ceny jednego towaru - oczekiwana informacja o cenie."""
+        print('Sprawdzenie ceny jednego towaru - oczekiwana informacja o cenie.')
 
         core = Core(self.__products)
         self.assertEqual(core.get_product_price(30), '9.90')
 
     def test_2(self):
         """Wrzucenie odliczonej kwoty, zakup towaru - oczekiwany brak reszty."""
+        print('Wrzucenie odliczonej kwoty, zakup towaru - oczekiwany brak reszty.')
 
         core = Core(self.__products)
         core.get_product_price(30)
@@ -36,6 +38,7 @@ class Tests(unittest.TestCase):
 
     def test_3(self):
         """Wrzucenie większej kwoty, zakup towaru - oczekiwana reszta."""
+        print('Wrzucenie większej kwoty, zakup towaru - oczekiwana reszta.')
 
         core = Core(self.__products)
         core.get_product_price(30)
@@ -46,6 +49,7 @@ class Tests(unittest.TestCase):
 
     def test_4(self):
         """Wykupienie całego asortymentu, próba zakupu po wyczerpaniu towaru - oczekiwana informacja o braku."""
+        print('Wykupienie całego asortymentu, próba zakupu po wyczerpaniu towaru - oczekiwana informacja o braku.')
 
         core = Core(self.__products)
         core.get_product_price(30)
@@ -62,6 +66,7 @@ class Tests(unittest.TestCase):
 
     def test_5(self):
         """Sprawdzenie ceny towaru o nieprawidłowym numerze (<30 lub >50) - oczekiwana informacja o błędzie."""
+        print('Sprawdzenie ceny towaru o nieprawidłowym numerze (<30 lub >50) - oczekiwana informacja o błędzie.')
 
         core = Core(self.__products)
         with self.assertRaises(WrongProductError):
@@ -69,6 +74,7 @@ class Tests(unittest.TestCase):
 
     def test_6(self):
         """Wrzucenie kilku monet, przerwanie transakcji - oczekiwany zwrot monet."""
+        print('Wrzucenie kilku monet, przerwanie transakcji - oczekiwany zwrot monet.')
 
         core = Core(self.__products)
         core.get_product_price(30)
@@ -85,6 +91,7 @@ class Tests(unittest.TestCase):
             wrzucenie reszty monet do odliczonej kwoty, ponowne wybranie poprawnego numeru towaru
             - oczekiwany brak reszty
         """
+        print('Wrzucenie za małej kwoty, wybranie poprawnego numeru towaru, wrzucenie reszty monet do odliczonej kwoty, ponowne wybranie poprawnego numeru towaru - oczekiwany brak reszty')
 
         core = Core(self.__products)
         core.pay(5)
@@ -103,6 +110,7 @@ class Tests(unittest.TestCase):
             (dla floatów suma sto razy 0.01+0.01+...+0.01 nie będzie równa 1.0).
             Płatności można dokonać za pomocą pętli for w interpreterze.
         """
+        print('Zakup towaru płacąc po 1 gr - suma stu monet ma być równa 1zł (dla floatów suma sto razy 0.01+0.01+...+0.01 nie będzie równa 1.0). Płatności można dokonać za pomocą pętli for w interpreterze.')
 
         core = Core(self.__products)
         core.get_product_price(30)
